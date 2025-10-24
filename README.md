@@ -1,4 +1,4 @@
-# **Neural Network for Collision Prediction**
+# ** Robot Navigation : Neural Network for Collision Prediction**
 
 ## **Overview**
 
