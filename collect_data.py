@@ -4,6 +4,7 @@ from SteeringBehaviors import Wander
 import SimulationEnvironment as sim
 
 import numpy as np
+import csv
 
 def collect_training_data(total_actions):
     #set-up environment
@@ -16,8 +17,7 @@ def collect_training_data(total_actions):
     num_params = 7
     #STUDENTS: network_params will be used to store your training data
     # a single sample will be comprised of: sensor_readings, action, collision
-    network_params =
-
+    network_params = np.zeros((total_actions, num_params))
 
     for action_i in range(total_actions):
         progress = 100*float(action_i)/total_actions
@@ -40,11 +40,12 @@ def collect_training_data(total_actions):
                     network_params[-1][-1] = collision #share collision result with prior action
                 break
 
-
         #STUDENTS: Update network_params.
-
-
-    #STUDENTS: Save .csv here. Remember rows are individual samples, the first 5
+        network_params[action_i, :] = np.concatenate((sensor_readings, [action,collision]))
+    with open("submissions.csv", mode="w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerows(network_params.tolist())
+        #STUDENTS: Save .csv here. Remember rows are individual samples, the first 5
     #columns are sensor values, the 6th is the action, and the 7th is collision.
     #Do not title the columns. Your .csv should look like the provided sample.
 
