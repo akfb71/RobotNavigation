@@ -42,7 +42,7 @@ def collect_training_data(total_actions):
 
         #STUDENTS: Update network_params.
         network_params[action_i, :] = np.concatenate((sensor_readings, [action,collision]))
-    with open("submissions.csv", mode="w", newline="") as file:
+    with open("submission.csv", mode="w", newline="") as file:
         writer = csv.writer(file)
         writer.writerows(network_params.tolist())
         #STUDENTS: Save .csv here. Remember rows are individual samples, the first 5
