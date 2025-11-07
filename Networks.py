@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class Action_Conditioned_FF(nn.Module):
-    def __init__(self, input_size=6, hidden_size=4, output_size=2):
+    def __init__(self, input_size=6, hidden_size=4, output_size=1):
         super(Action_Conditioned_FF,self).__init__()
         self.input_to_hidden = nn.Linear(input_size,hidden_size)
         self.nonlinear_activation = nn.Sigmoid()
