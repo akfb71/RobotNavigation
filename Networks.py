@@ -21,14 +21,23 @@ class Action_Conditioned_FF(nn.Module):
 
 
     def evaluate(self, model, test_loader, loss_function):
-        test_input, labels = test_loader['input'], test_loader['labels']
-        network_output = self.forward(test_input)
-        loss = loss_function(network_output,labels)
+        # test_input, labels = test_loader['input'], test_loader['labels']
+        model.eval()
+        total_loss = 0.0
+        with torch.no_grad():
+            for idx, test_sample in enumerate(test_loader):
+                test_input, test_label = test_sample['input'], test_sample['label']
+                test_input = torch.tensor(test_input, dtype=torch.float32)
+                labels = torch.tensor(labels, dtype=torch.float32)
+                output = self.forward(test_input)
+                loss = loss_function(output,labels)
+                total_loss += loss.item()
+        avg_loss = total_loss / len(test_loader)
 # STUDENTS: evaluate() must return the loss (a value, not a tensor) over your testing dataset. Keep in
 # mind that we do not need to keep track of any gradients while evaluating the
 # model. loss_function will be a PyTorch loss function which takes as argument the model's
 # output and the desired output.
-        return loss
+        return avg_loss
 
 def main():
     model = Action_Conditioned_FF()
