@@ -28,9 +28,9 @@ class Action_Conditioned_FF(nn.Module):
             for idx, test_sample in enumerate(test_loader):
                 test_input, test_label = test_sample['input'], test_sample['label']
                 test_input = torch.tensor(test_input, dtype=torch.float32)
-                labels = torch.tensor(labels, dtype=torch.float32)
+                test_label = torch.tensor(test_label, dtype=torch.float32)
                 output = self.forward(test_input)
-                loss = loss_function(output,labels)
+                loss = loss_function(output,test_label)
                 total_loss += loss.item()
         avg_loss = total_loss / len(test_loader)
 # STUDENTS: evaluate() must return the loss (a value, not a tensor) over your testing dataset. Keep in
