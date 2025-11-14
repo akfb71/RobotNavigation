@@ -49,7 +49,7 @@ def train_model(no_epochs):
                 f"- Test Loss: {val_loss:.4f}"
             )
 
-            with open("saved_model.pkl", "wb") as f:
+            with open("saved/saved_model.pkl", "wb") as f:
                 pickle.dump(model, f)
 
 
