@@ -2,21 +2,39 @@ import torch
 import torch.nn as nn
 
 class Action_Conditioned_FF(nn.Module):
-    def __init__(self, input_size=6, hidden_size=4, output_size=1):
+    def __init__(self, input_size=6, hidden1_size=32, hidden2_size=16, output_size=1):
         super(Action_Conditioned_FF,self).__init__()
-        self.input_to_hidden = nn.Linear(input_size,hidden_size)
-        self.nonlinear_activation = nn.Sigmoid()
-        self.hidden_to_output = nn.Linear(hidden_size,output_size)
+        self.layer1 = nn.Linear(input_size,hidden1_size)
+        self.bn1 = nn.BatchNorm1d(hidden1_size)
+        self.drop1 = nn.Dropout(0.2)
+
+        self.layer2 = nn.Linear(hidden1_size,hidden2_size)
+        self.bn2 = nn.BatchNorm1d(hidden2_size)
+        self.drop2 = nn.Dropout(0.2)
+
+        self.output_layer = nn.Linear(hidden2_size,output_size)
+        self.relu_activation = nn.ReLU()
+        self.sigmoid_activation = nn.Sigmoid()
 # STUDENTS: __init__() must initiatize nn.Module and define your network's
 # custom architecture
 
     def forward(self, input):
 # STUDENTS: forward() must complete a single forward pass through your network
 # and return the output which should be a tensor
-        hidden = self.input_to_hidden(input)
-        hidden = self.nonlinear_activation(hidden)
-        output = self.hidden_to_output(hidden)
-        output = self.nonlinear_activation(output)
+        x = self.layer1(input)
+        x = self.bn1(x)
+        output1 = self.relu_activation(x)
+        output1 = self.drop1(output1)
+
+
+        x = self.layer2(output1)
+        x = self.bn2(x)
+        output2 = self.relu_activation(x)
+        output2 = self.drop2(output2)
+
+        output = self.output_layer(output2)
+        output = self.sigmoid_activation(output)
+
         return output
 
 

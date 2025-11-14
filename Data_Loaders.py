@@ -11,11 +11,11 @@ class Nav_Dataset(dataset.Dataset):
     def __init__(self):
         self.data = np.genfromtxt('saved/training_data.csv', delimiter=',')
 # STUDENTS: it may be helpful for the final part to balance the distribution of your collected data
-#         y = self.data[-1]
-#         x = self.data[:-1]
-#         #indices of collision
-#         idx_collision = np.where(y==1)[0]
-#         idx_not_collision = np.where(y==0)[0]
+        y = self.data[:,-1]
+        x = self.data[:,:-1]
+        # indices of collision
+        idx_collision = np.where(y==1)[0]
+        idx_not_collision = np.where(y==0)[0]
 
         #oversampling minority class
         # max_count = max(len(idx_collision), len(idx_not_collision)) #oversample target size
@@ -28,15 +28,15 @@ class Nav_Dataset(dataset.Dataset):
         #     idx_1 = np.concatenate([idx_not_collision, add_1])
 
         #undersampling majority class
-        # min_count = min(len(idx_collision), len(idx_not_collision)) #undersample target size
-        # idx_collision_sampled = np.random.choice(idx_collision, min_count, replace=False)
-        # idx_not_collision_sampled = np.random.choice(idx_not_collision, min_count, replace=False)
-        #
-        # #combine and shuffle
-        # balanced_idx = np.concatenate([idx_collision_sampled, idx_not_collision_sampled])
-        # np.random.shuffle(balanced_idx)
-        #
-        # self.data = self.data[balanced_idx]
+        min_count = min(len(idx_collision), len(idx_not_collision)) #undersample target size
+        idx_collision_sampled = np.random.choice(idx_collision, min_count, replace=False)
+        idx_not_collision_sampled = np.random.choice(idx_not_collision, min_count, replace=False)
+
+        #combine and shuffle
+        balanced_idx = np.concatenate([idx_collision_sampled, idx_not_collision_sampled])
+        np.random.shuffle(balanced_idx)
+
+        self.data = self.data[balanced_idx]
 
         # normalize data and save scaler for inference
         self.scaler = MinMaxScaler()
@@ -63,7 +63,7 @@ class Data_Loaders():
     def __init__(self, batch_size):
         self.nav_dataset = Nav_Dataset()
         self.train_size = int(0.8 * len(self.nav_dataset))
-        self.test_size = int(0.2 * len(self.nav_dataset))
+        self.test_size = int(len(self.nav_dataset)-self.train_size)
 
         self.train_dataset, self.test_dataset = random_split(self.nav_dataset, [self.train_size,self. test_size])
 
