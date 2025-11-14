@@ -5,11 +5,11 @@ class Action_Conditioned_FF(nn.Module):
     def __init__(self, input_size=6, hidden1_size=32, hidden2_size=16, output_size=1):
         super(Action_Conditioned_FF,self).__init__()
         self.layer1 = nn.Linear(input_size,hidden1_size)
-        self.bn1 = nn.BatchNorm1d(hidden1_size)
+        # self.bn1 = nn.BatchNorm1d(hidden1_size)
         self.drop1 = nn.Dropout(0.2)
 
         self.layer2 = nn.Linear(hidden1_size,hidden2_size)
-        self.bn2 = nn.BatchNorm1d(hidden2_size)
+        # self.bn2 = nn.BatchNorm1d(hidden2_size)
         self.drop2 = nn.Dropout(0.2)
 
         self.output_layer = nn.Linear(hidden2_size,output_size)
@@ -22,13 +22,13 @@ class Action_Conditioned_FF(nn.Module):
 # STUDENTS: forward() must complete a single forward pass through your network
 # and return the output which should be a tensor
         x = self.layer1(input)
-        x = self.bn1(x)
+        # x = self.bn1(x)
         output1 = self.relu_activation(x)
         output1 = self.drop1(output1)
 
 
         x = self.layer2(output1)
-        x = self.bn2(x)
+        # x = self.bn2(x)
         output2 = self.relu_activation(x)
         output2 = self.drop2(output2)
 
