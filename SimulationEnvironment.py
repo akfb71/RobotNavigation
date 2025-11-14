@@ -269,7 +269,7 @@ class SimulationEnvironment:
 
 
     def raycasting(self, print_sensors=False):
-        robot_filter = pm.ShapeFilter(mask=pm.ShapeFilter.ALL_MASKS ^ 0b1)
+        robot_filter = pm.ShapeFilter(mask=(0xFFFFFFFF ^ 0b1))
         sensor_end_points=[]
         for a in self.robot.sensor_angles:
             angle = self.robot.body.angle + math.radians(a)
