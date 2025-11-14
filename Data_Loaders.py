@@ -11,6 +11,32 @@ class Nav_Dataset(dataset.Dataset):
     def __init__(self):
         self.data = np.genfromtxt('saved/training_data.csv', delimiter=',')
 # STUDENTS: it may be helpful for the final part to balance the distribution of your collected data
+#         y = self.data[-1]
+#         x = self.data[:-1]
+#         #indices of collision
+#         idx_collision = np.where(y==1)[0]
+#         idx_not_collision = np.where(y==0)[0]
+
+        #oversampling minority class
+        # max_count = max(len(idx_collision), len(idx_not_collision)) #oversample target size
+        # if len(idx_collision) < max_count:
+        #     add_0 = np.random.choice(idx_collision, max_count - len(idx_collision), replace=True)
+        #     idx_0 = np.concatenate([idx_collision, add_0])
+        #
+        # if len(idx_not_collision) < max_count:
+        #     add_1 = np.random.choice(idx_not_collision, max_count - len(idx_1), replace=True)
+        #     idx_1 = np.concatenate([idx_not_collision, add_1])
+
+        #undersampling majority class
+        # min_count = min(len(idx_collision), len(idx_not_collision)) #undersample target size
+        # idx_collision_sampled = np.random.choice(idx_collision, min_count, replace=False)
+        # idx_not_collision_sampled = np.random.choice(idx_not_collision, min_count, replace=False)
+        #
+        # #combine and shuffle
+        # balanced_idx = np.concatenate([idx_collision_sampled, idx_not_collision_sampled])
+        # np.random.shuffle(balanced_idx)
+        #
+        # self.data = self.data[balanced_idx]
 
         # normalize data and save scaler for inference
         self.scaler = MinMaxScaler()

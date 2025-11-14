@@ -30,6 +30,7 @@ class Action_Conditioned_FF(nn.Module):
                 test_input = torch.tensor(test_input, dtype=torch.float32)
                 test_label = torch.tensor(test_label, dtype=torch.float32)
                 output = self.forward(test_input)
+                output = output.squeeze(1)
                 loss = loss_function(output,test_label)
                 total_loss += loss.item()
         avg_loss = total_loss / len(test_loader)
