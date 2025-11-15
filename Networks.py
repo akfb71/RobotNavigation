@@ -24,13 +24,13 @@ class Action_Conditioned_FF(nn.Module):
         x = self.layer1(input)
         # x = self.bn1(x)
         output1 = self.relu_activation(x)
-        output1 = self.drop1(output1)
+        # output1 = self.drop1(output1)
 
 
         x = self.layer2(output1)
         # x = self.bn2(x)
         output2 = self.relu_activation(x)
-        output2 = self.drop2(output2)
+        # output2 = self.drop2(output2)
 
         output = self.output_layer(output2)
         output = self.sigmoid_activation(output)
